@@ -77,7 +77,7 @@ nav ul li a:hover {
 <h1>Pagina principal</h1>
 <nav>
 <ul>
-  <li><a href="nueva-donacion.php">Nueva donacion</a></li>
+  <li><a href="nueva-donacion.php">Nuevo Donante</a></li>
   <li><a href="ver-donaciones.php">Ver donaciones</a></li>
     <li><a href="application/logout.php">Salir</a></li>
 

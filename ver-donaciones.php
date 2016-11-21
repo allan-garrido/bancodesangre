@@ -78,7 +78,7 @@ nav ul li a:hover {
 <?php include 'application/basededatos.php'; ?>
 <nav>
 <ul>
-  <li><a href="nueva-donacion.php">Nueva donacion</a></li>
+  <li><a href="nueva-donacion.php">Nuevo donante</a></li>
   <li><a href="ver-donaciones.php">Ver donaciones</a></li>
   <li><a href="application/logout.php">Salir</a></li>
 </ul>
@@ -120,48 +120,50 @@ nav ul li a:hover {
       </tr>
 <?php
 $DBQuery = 'SELECT * FROM donantes;';
-$DBResultado = $DBConexion->query ( $DBQuery );
+$DBResultado = mysql_query($DBQuery,$DBConexion);
 
-if ($DBResultado->num_rows > 0) {
-	while ($Filas = $DBResultado->fetch_assoc()){
+if (mysql_num_rows($DBResultado) > 0) {
+	while ($Filas = mysql_fetch_assoc($DBResultado)){
 		echo '<tr>';
-		echo '<td>'.$Filas['ID'].'</td>';
-		echo '<td>'.$Filas['Peso'].'</td>';
+			echo '<td>'.$Filas['ID'].'</td>';
+			echo '<td>'.$Filas['Peso'].'</td>';
 		
-		$DBQuery2 = 'SELECT * FROM personas WHERE ID='.$Filas['ID'].';';
+			$DBQuery2 = 'SELECT * FROM personas WHERE ID='.$Filas['ID'].';';
 		
-		$DBResultado2 = $DBConexion->query($DBQuery2);
-		if($DBResultado2->num_rows >0) {
-			$Filas2 = $DBResultado2->fetch_array ( MYSQLI_ASSOC );
-			echo '<td>'.$Filas2['NombreCompleto'].'</td>';
-			echo '<td>'.$Filas2['Direccion'].'</td>';
-			echo '<td>'.$Filas2['FechaNacimiento'].'</td>';
-			echo '<td>'.$Filas2['CorreoElectronico'].'</td>';
-		}
+			$DBResultado2 = mysql_query($DBQuery2,$DBConexion);
 		
-		$DBQuery2 = 'SELECT * FROM donaciones WHERE IDDonante='.$Filas['ID'].';';
-		
-		$DBResultado2 = $DBConexion->query($DBQuery2);
-		if($DBResultado2->num_rows >0) {
-			$Filas2 = $DBResultado2->fetch_array ( MYSQLI_ASSOC );
-			echo '<td>'.$Filas2['ID'].'</td>';
-			echo '<td>'.$Filas2['Fecha'].'</td>';
-			echo '<td>'.$Filas2['Hora'].'</td>';
-			echo '<td>'.$Filas2['FactorRH'].'</td>';
-			echo '<td>'.$Filas2['TipoDeSangre'].'</td>';
-			
-			$DBQuery3 = 'SELECT * FROM almacenes WHERE ID='.$Filas2['IDAlmacen'].';';
-
-			$DBResultado3 = $DBConexion->query($DBQuery3);
-
-			if($DBResultado3->num_rows >0) {
-				$Filas3 = $DBResultado3->fetch_array ( MYSQLI_ASSOC );
-				echo '<td>'.$Filas3['Nombre'].'</td>';			
+			if(mysql_num_rows($DBResultado2) >0) {
+				$Filas2 = mysql_fetch_assoc($DBResultado2);
+				
+				echo '<td>'.$Filas2['NombreCompleto'].'</td>';
+				echo '<td>'.$Filas2['Direccion'].'</td>';
+				echo '<td>'.$Filas2['FechaNacimiento'].'</td>';
+				echo '<td>'.$Filas2['CorreoElectronico'].'</td>';
 			}
+			
+			$DBQuery3 = 'SELECT * FROM donaciones WHERE IDDonante='.$Filas['ID'].';';
+			
+			$DBResultado3 = mysql_query($DBQuery3,$DBConexion);
+			if(mysql_num_rows($DBResultado3) >0) {
+				$Filas3 = mysql_fetch_assoc($DBResultado3);
+				echo '<td>'.$Filas3['ID'].'</td>';
+				echo '<td>'.$Filas3['Fecha'].'</td>';
+				echo '<td>'.$Filas3['Hora'].'</td>';
+				echo '<td>'.$Filas3['FactorRH'].'</td>';
+				echo '<td>'.$Filas3['TipoDeSangre'].'</td>';
+				
+				$DBQuery4 = 'SELECT * FROM almacenes WHERE ID='.$Filas3['IDAlmacen'].';';
+	
+				$DBResultado4 = mysql_query($DBQuery4,$DBConexion);
+	
+				if(mysql_num_rows($DBResultado4) >0) {
+					$Filas4 = mysql_fetch_assoc($DBResultado4);
+					echo '<td>'.$Filas4['Nombre'].'</td>';			
+				}
 		}
 
-                if($Filas2['FactorRH']==1) {
-                        switch($Filas2['TipoDeSangre']) {
+                if($Filas3['FactorRH']==1) {
+                        switch($Filas3['TipoDeSangre']) {
                                 case 'A': case 'a':
                                           echo '<td>A+, AB+</td><td>O+, A+, O-, A-</td>';
                                           break;
@@ -176,7 +178,7 @@ if ($DBResultado->num_rows > 0) {
                                           break;
                         }
                 } else {
-                        switch($Filas2['TipoDeSangre']) {
+                        switch($Filas3['TipoDeSangre']) {
                                 case 'A': case 'a':
                                           echo '<td>A+, AB+, A-, AB-</td><td>O-, A-</td>';
                                           break;
@@ -200,5 +202,5 @@ if ($DBResultado->num_rows > 0) {
 </body>
 </html>
 <?php
-mysqli_close ( $DBConexion );
+mysql_close($DBConexion);
 ?>	

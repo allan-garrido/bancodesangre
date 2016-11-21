@@ -7,16 +7,16 @@
 
 <body>
 <?php include 'application/check-login.php';?>
-<h1>Nueva Donacion</h1>
+<h1>Nuevo Donante</h1>
 <form action="application/nueva-donacion.php" method="post" name="NuevaDonacion" id="NuevaDonacion">
   <?php include 'application/basededatos.php';?>
   <?php 
   $DBQuery = 'SELECT ID FROM donantes ORDER BY ID DESC LIMIT 1;';
   
-  $DBResultado = $DBConexion->query ( $DBQuery );
+  $DBResultado = mysql_query($DBQuery,$DBConexion);
   
-  if ($DBResultado->num_rows > 0) {
-	$Filas = $DBResultado->fetch_array ( MYSQLI_ASSOC );	
+  if (mysql_num_rows($DBResultado) > 0) {
+	$Filas = mysql_fetch_assoc($DBResultado);	
   }  
   ?>
   <h2>Datos del donante</h2>
@@ -37,10 +37,10 @@
   <?php 
   $DBQuery = 'SELECT ID FROM donaciones ORDER BY ID DESC LIMIT 1;';
   
-  $DBResultado = $DBConexion->query ( $DBQuery );
+  $DBResultado = mysql_query($DBQuery,$DBConexion);
   
-  if ($DBResultado->num_rows > 0) {
-	$Filas = $DBResultado->fetch_array ( MYSQLI_ASSOC );	
+  if (mysql_num_rows($DBResultado) > 0) {
+	$Filas = mysql_fetch_assoc($DBResultado);	
   }  
   ?>
   <label for="IDDonacion">ID Donacion:</label>
@@ -68,17 +68,17 @@
       <?php
 	  $DBQuery = 'SELECT ID,Nombre FROM almacenes;';
 
-	  $DBResultado = $DBConexion->query ( $DBQuery );
-
-	  if ($DBResultado->num_rows > 0) {
-	  	while ($Filas = $DBResultado->fetch_assoc()){
+	  $DBResultado = mysql_query($DBQuery,$DBConexion);
+  
+	  if (mysql_num_rows($DBResultado) > 0) {
+	  	while ($Filas = mysql_fetch_assoc($DBResultado)){
 			echo '<option value="'.$Filas['ID'].'">'.$Filas['Nombre'].'</option>	';
 	   	}
 	  }
 	  ?>
       </select>
       <br>
-      <input name="submit" type="submit" id="submit" value="Enviar"><input name="Cancelar" type="button" autofocus id="Cancelar" value="Cancelar" onclick="window.location='/bancodesangre/principal.php';return false;">
+      <input name="submit" type="submit" id="submit" value="Enviar"><input name="Cancelar" type="button" autofocus id="Cancelar" value="Cancelar" onClick="window.location='/principal.php';return false;">
 </form>
 </body>
 </html>
