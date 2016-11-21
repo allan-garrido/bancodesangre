@@ -5,7 +5,7 @@ session_start ();
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>Login Banco de Sangre</title>
 </head>
 <body>
 <?php 
@@ -19,11 +19,10 @@ if (isset ( $_POST ['contrasena'] )) {
 }
 
 $DBQuery = 'SELECT * FROM usuarios WHERE Nombre = "'.$Usuario.'";';
+$DBResultado = mysql_query($DBQuery,$DBConexion);
 
-$DBResultado = mysqli_query($DBConexion,$DBQuery);
-
-if ($DBResultado->num_rows > 0) {
-	$Filas = $DBResultado->fetch_array ( MYSQLI_ASSOC );
+if (mysql_num_rows($DBResultado) > 0) {
+	$Filas = mysql_fetch_assoc($DBResultado);
 	
 	if ($Contrasena == $Filas ['Contrasena']) {
 		$_SESSION ['SesionIniciada'] = true;
@@ -35,14 +34,15 @@ if ($DBResultado->num_rows > 0) {
 		header ( 'Location: principal.php' );
 	} else {
 		echo 'Contrase&ntilde;a incorrecta.';
-		echo '<br><a href="/bancodesangre/">Volver a Intentarlo</a>';
+		echo '<br><a href="/">Volver a Intentarlo</a>';
 	}
 } else {
-	echo 'El usuario no existe.'.mysqli_error($DBConexion).$DBREsultado->error;
-	echo '<br><a href="/bancodesangre/">Volver a Intentarlo</a>';
+	echo 'El usuario no existe. '.mysql_error($DBConexion).$DBREsultado->error;
+	echo '<br><a href="/">Volver a Intentarlo</a><br>';
+	
 }
 
-mysqli_close ( $DBConexion );
+mysql_close ( $DBConexion );
 ?>
 </body>
 </html>

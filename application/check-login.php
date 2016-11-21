@@ -15,7 +15,7 @@ $now = time ();
 if ($now > $_SESSION ['Expira']) {
 	session_destroy ();
 	
-	echo 'Su sesion a terminado, <a href="/bancodesangre/">Necesita iniciar sesion</a>';
+	echo 'Su sesion a terminado, <a href="/">Necesita iniciar sesion</a>';
 	exit ();
 }
 ?>

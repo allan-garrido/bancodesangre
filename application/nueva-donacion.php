@@ -16,9 +16,7 @@ include 'basededatos.php';
 
 $DBQuery = 'INSERT INTO donantes(ID,Peso) VALUES('.$IDDonante.','.$Peso.')';
 
-
-
-if ($DBConexion->query($DBQuery) === TRUE) {
+if (mysql_query($DBQuery,$DBConexion) === TRUE) {
     echo 'New record created successfully';
 } else {
     echo 'Error: ' . $DBConexion->error;
@@ -26,7 +24,7 @@ if ($DBConexion->query($DBQuery) === TRUE) {
 
 $DBQuery = 'INSERT INTO personas(ID,NombreCompleto,Direccion,FechaNacimiento,CorreoElectronico) VALUES('.$IDDonante.',"'.$NombreCompleto.'","'.$Direccion.'","'.$FechaNacimiento.'","'.$CorreoElectronico.'")';
 
-if ($DBConexion->query($DBQuery) === TRUE) {
+if (mysql_query($DBQuery,$DBConexion) === TRUE) {
     echo 'New record created successfully';
 } else {
     echo 'Error: ' . $DBConexion->error;
@@ -35,11 +33,11 @@ if ($DBConexion->query($DBQuery) === TRUE) {
 $DBQuery = 'INSERT INTO donaciones(ID,IDDonante,IDAlmacen,Fecha,Hora,FactorRH,TipoDeSangre) VALUES('.$IDDonacion.','.$IDDonante.','.$IDAlmacen.',"'.$Fecha.'","'.$Hora.'",'.$FactorRH.',"'.$TipoDeSangre.'")';
 
 
-if ($DBConexion->query($DBQuery) === TRUE) {
-    echo "New record created successfully";
+if (mysql_query($DBQuery,$DBConexion) === TRUE) {
+    echo 'New record created successfully';
 } else {
-    echo "Error: " . $DBConexion->error;
+    echo 'Error: ' . $DBConexion->error;
 }
 
-header ( 'Location: /bancodesangre/principal.php' );
+header ( 'Location: /principal.php' );
 ?>
